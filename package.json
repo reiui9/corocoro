@@ -16,7 +16,6 @@
     "@react-native-firebase/firestore": "^6.2.0",
     "@react-native-firebase/messaging": "^6.2.0",
     "@react-native-firebase/storage": "^6.2.0",
-    "@react-native-seoul/kakao-login": "^2.3.0",
     "@reduxjs/toolkit": "^1.0.4",
     "babel-plugin-module-resolver": "^4.0.0",
     "moment": "^2.24.0",
