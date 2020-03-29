@@ -1,0 +1,4 @@
+#Sun Mar 29 14:03:55 KST 2020
+base.0=/Users/youngin/Projects/widgetProject/corocoro/android/app/build/intermediates/transforms/dexMerger/debug/0
+path.0=classes.dex
+renamed.0=classes.dex
