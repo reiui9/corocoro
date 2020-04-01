@@ -6,7 +6,7 @@
  * @flow
  */
 
-import React, {Fragment} from 'react';
+import React, {Fragment, Component} from 'react';
 import {
   SafeAreaView,
   StyleSheet,
@@ -15,62 +15,109 @@ import {
   Text,
   StatusBar,
 } from 'react-native';
-
+import firestore from '@react-native-firebase/firestore';
+import Moment from 'moment';
 import {
-  Header,
-  LearnMoreLinks,
   Colors,
   DebugInstructions,
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
+import {Dimensions, Platform, PixelRatio} from 'react-native';
+const {width: viewportWidth} = Dimensions.get('window');
+export const {width: SCREEN_WIDTH, height: SCREEN_HEIGHT} = Dimensions.get(
+  'window',
+);
+export const widthScale = SCREEN_WIDTH / 10;
+export const heightScale = SCREEN_HEIGHT / 10;
+const scale = SCREEN_WIDTH / 320;
 
-const App = () => {
-  return (
-    <Fragment>
-      <StatusBar barStyle="dark-content" />
-      <SafeAreaView>
-        <ScrollView
-          contentInsetAdjustmentBehavior="automatic"
-          style={styles.scrollView}>
-          <Header />
-          {global.HermesInternal == null ? null : (
-            <View style={styles.engine}>
-              <Text style={styles.footer}>Engine: Hermes</Text>
+function normalize(size) {
+  let newSize = size * scale;
+  if (viewportWidth > 450) {
+    newSize = size * 1.7;
+  } else if (viewportWidth < 330) {
+    newSize = size * 0.9;
+  }
+  if (Platform.OS === 'ios') {
+    return Math.round(PixelRatio.roundToNearestPixel(newSize));
+  } else {
+    return Math.round(PixelRatio.roundToNearestPixel(newSize)) - 2;
+  }
+}
+
+class App extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      data: '',
+      arr: [],
+    };
+  }
+  componentDidMount() {
+    console.log('componentDidUpdate');
+    return firestore()
+      .collection('dashboard')
+      .doc('total')
+      .get()
+      .then((doc) => {
+        console.log(doc.data().arr);
+        this.setState({
+          data: doc.data(),
+          arr: doc.data().arr,
+        });
+      });
+  }
+
+  render() {
+    return (
+      <Fragment>
+        <StatusBar barStyle="dark-content" />
+        <SafeAreaView>
+          <ScrollView
+            contentInsetAdjustmentBehavior="automatic"
+            style={styles.scrollView}>
+            <View style={styles.body}>
+              <View style={styles.sectionContainer}>
+                <Text style={styles.sectionTitle}>Global</Text>
+                <Text style={styles.sectionDescription}>
+                  Confirmed{' : '}
+                  <Text style={styles.highlight}>
+                    {this.state.data.confirmed}
+                  </Text>{' '}
+                  Death{' : '}
+                  <Text style={styles.highlight}>
+                    {this.state.data.death}
+                  </Text>{' '}
+                  Released{' : '}
+                  <Text style={styles.highlight}>
+                    {this.state.data.released}
+                  </Text>
+                </Text>
+              </View>
+              {this.state.arr.map((item, index) => {
+                return (
+                  <View style={styles.sectionContainer}>
+                    <Text style={styles.sectionTitle}>{item.nation}</Text>
+                    <Text style={styles.sectionDescription}>
+                      Confirmed{' : '}
+                      <Text style={styles.highlight}>
+                        {item.confirmed}
+                      </Text>{' '}
+                      Death{' : '}
+                      <Text style={styles.highlight}>{item.death}</Text>{' '}
+                      Released{' : '}
+                      <Text style={styles.highlight}>{item.released}</Text>
+                    </Text>
+                  </View>
+                );
+              })}
             </View>
-          )}
-          <View style={styles.body}>
-            <View style={styles.sectionContainer}>
-              <Text style={styles.sectionTitle}>Step One</Text>
-              <Text style={styles.sectionDescription}>
-                Edit <Text style={styles.highlight}>App.js</Text> to change this
-                screen and then come back to see your edits.
-              </Text>
-            </View>
-            <View style={styles.sectionContainer}>
-              <Text style={styles.sectionTitle}>See Your Changes</Text>
-              <Text style={styles.sectionDescription}>
-                <ReloadInstructions />
-              </Text>
-            </View>
-            <View style={styles.sectionContainer}>
-              <Text style={styles.sectionTitle}>Debug</Text>
-              <Text style={styles.sectionDescription}>
-                <DebugInstructions />
-              </Text>
-            </View>
-            <View style={styles.sectionContainer}>
-              <Text style={styles.sectionTitle}>Learn More</Text>
-              <Text style={styles.sectionDescription}>
-                Read the docs to discover what to do next:
-              </Text>
-            </View>
-            <LearnMoreLinks />
-          </View>
-        </ScrollView>
-      </SafeAreaView>
-    </Fragment>
-  );
-};
+          </ScrollView>
+        </SafeAreaView>
+      </Fragment>
+    );
+  }
+}
 
 const styles = StyleSheet.create({
   scrollView: {
@@ -94,7 +141,7 @@ const styles = StyleSheet.create({
   },
   sectionDescription: {
     marginTop: 8,
-    fontSize: 18,
+    fontSize: normalize(13),
     fontWeight: '400',
     color: Colors.dark,
   },
