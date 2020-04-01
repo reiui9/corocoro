@@ -8,7 +8,17 @@
  */
 
 import React, {Component} from 'react';
-import {Container, Header, Grid, Col, Item, Input} from 'native-base';
+import {
+  Container,
+  Header,
+  Grid,
+  Col,
+  Item,
+  Input,
+  Spinner,
+  Button,
+} from 'native-base';
+import Icon from 'react-native-vector-icons/SimpleLineIcons';
 import {StyleSheet, ScrollView, View, Text} from 'react-native';
 import firestore from '@react-native-firebase/firestore';
 import moment from 'moment';
@@ -43,27 +53,38 @@ function numberWithCommas(x) {
   return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 }
 
+function refresh(self) {
+  self.setState({
+    arr: [],
+    loading: true,
+  });
+  self.setState({
+    moment: moment().format('YYYY-MM-DD H:mm:ss'),
+  });
+  return firestore()
+    .collection('dashboard')
+    .doc('total')
+    .get()
+    .then((doc) => {
+      self.setState({
+        data: doc.data(),
+        arr: doc.data().arr,
+        loading: false,
+      });
+    });
+}
+
 class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
       data: '',
       arr: [],
+      moment: moment().format('YYYY-MM-DD H:mm:ss'),
     };
   }
   componentDidMount() {
-    console.log('componentDidUpdate');
-    return firestore()
-      .collection('dashboard')
-      .doc('total')
-      .get()
-      .then((doc) => {
-        console.log(doc.data().arr);
-        this.setState({
-          data: doc.data(),
-          arr: doc.data().arr,
-        });
-      });
+    refresh(this);
   }
 
   render() {
@@ -71,7 +92,7 @@ class App extends Component {
       <Container>
         <Header style={[styles.headerTheme, {height: normalize(15)}]}>
           <Text style={{color: 'white', fontSize: normalize(10)}}>
-            Updated at {moment().format('YYYY-MM-DD H:mm:ss')} GTC
+            Updated at {this.state.moment} GTC
           </Text>
         </Header>
         <Header style={styles.headerTheme}>
@@ -135,6 +156,7 @@ class App extends Component {
                 </Col>
               </Grid>
             </View>
+            {this.state.loading && <Spinner color="gray" />}
             {this.state.arr.map((item, index) => {
               return (
                 (!this.state.search ||
@@ -194,7 +216,9 @@ class App extends Component {
                 this.setState({search: text});
               }}
             />
-            <Text style={{color: 'black', paddingRight: 15}}>Search</Text>
+            <Button transparent onPress={() => refresh(this)}>
+              <Text style={{color: 'black', paddingRight: 15}}>Refresh</Text>
+            </Button>
           </Item>
         </Header>
       </Container>
@@ -259,8 +283,6 @@ const styles = StyleSheet.create({
     textAlign: 'right',
   },
   headerTheme: {
-    // margin: 5,
-    // padding: 5,
     height: Platform.OS === 'ios' ? normalize(40) : normalize(25),
     backgroundColor: colors.label4,
   },
