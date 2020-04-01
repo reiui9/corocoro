@@ -8,26 +8,10 @@
  */
 
 import React, {Component} from 'react';
-import {
-  Container,
-  Header,
-  Grid,
-  Col,
-  Item,
-  Icon,
-  Input,
-  Button,
-} from 'native-base';
-import {
-  SafeAreaView,
-  StyleSheet,
-  ScrollView,
-  View,
-  Text,
-  StatusBar,
-} from 'react-native';
+import {Container, Header, Grid, Col, Item, Input} from 'native-base';
+import {StyleSheet, ScrollView, View, Text} from 'react-native';
 import firestore from '@react-native-firebase/firestore';
-import Moment from 'moment';
+import moment from 'moment';
 import {Colors} from 'react-native/Libraries/NewAppScreen';
 import {Dimensions, Platform, PixelRatio} from 'react-native';
 const {width: viewportWidth} = Dimensions.get('window');
@@ -85,6 +69,11 @@ class App extends Component {
   render() {
     return (
       <Container>
+        <Header style={[styles.headerTheme, {height: normalize(15)}]}>
+          <Text style={{color: 'white', fontSize: normalize(10)}}>
+            Updated at {moment().format('YYYY-MM-DD H:mm:ss')} GTC
+          </Text>
+        </Header>
         <Header style={styles.headerTheme}>
           <Grid style={styles.gridContainer}>
             <Col style={styles.gridTop}>
@@ -149,7 +138,7 @@ class App extends Component {
             {this.state.arr.map((item, index) => {
               return (
                 (!this.state.search ||
-                item.nation.includes(this.state.search)) && (
+                  item.nation.includes(this.state.search)) && (
                   <View style={styles.sectionContainer}>
                     <Text style={styles.sectionTitle}>
                       {item.number}. {item.flag} {item.nation}
@@ -195,14 +184,17 @@ class App extends Component {
             })}
           </View>
         </ScrollView>
-        <Header searchBar rounded style={[styles.headerTheme]}>
-          <Item style={{marginTop: 5, borderRadius: 15, height: normalize(30)}}>
+        <Header
+          searchBar
+          rounded
+          style={[styles.headerTheme, {height: normalize(35)}]}>
+          <Item style={{borderRadius: 15, height: normalize(25)}}>
             <Input
               onChangeText={(text) => {
                 this.setState({search: text});
               }}
             />
-              <Text style={{color: 'black', paddingRight: 15}}>Search</Text>
+            <Text style={{color: 'black', paddingRight: 15}}>Search</Text>
           </Item>
         </Header>
       </Container>
@@ -267,8 +259,8 @@ const styles = StyleSheet.create({
     textAlign: 'right',
   },
   headerTheme: {
-    margin: 5,
-    padding: 5,
+    // margin: 5,
+    // padding: 5,
     height: Platform.OS === 'ios' ? normalize(40) : normalize(25),
     backgroundColor: colors.label4,
   },
