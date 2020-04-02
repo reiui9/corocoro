@@ -166,6 +166,8 @@ PODS:
     - BoringSSL-GRPC/Interface (= 0.0.3)
   - BoringSSL-GRPC/Interface (0.0.3)
   - DoubleConversion (1.1.6)
+  - Firebase/Analytics (6.13.0):
+    - Firebase/Core
   - Firebase/Core (6.13.0):
     - Firebase/CoreOnly
     - FirebaseAnalytics (= 6.1.6)
@@ -353,6 +355,7 @@ PODS:
 
 DEPENDENCIES:
   - DoubleConversion (from `../node_modules/react-native/third-party-podspecs/DoubleConversion.podspec`)
+  - Firebase/Analytics
   - Folly (from `../node_modules/react-native/third-party-podspecs/Folly.podspec`)
   - glog (from `../node_modules/react-native/third-party-podspecs/glog.podspec`)
   - React (from `../node_modules/react-native/`)
@@ -490,6 +493,6 @@ SPEC CHECKSUMS:
   RNFBFirestore: 04c1eb90463c208ee072988d463c74bec09d08c1
   yoga: 312528f5bbbba37b4dcea5ef00e8b4033fdd9411
 
-PODFILE CHECKSUM: 17f007e0368bc9e691a3274882b58c510b0d0eff
+PODFILE CHECKSUM: 73f9fb4d9009b4b6beea6cc1fb149ebc881bd013
 
 COCOAPODS: 1.8.4

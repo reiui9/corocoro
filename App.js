@@ -31,6 +31,27 @@ export const widthScale = SCREEN_WIDTH / 10;
 export const heightScale = SCREEN_HEIGHT / 10;
 const scale = SCREEN_WIDTH / 320;
 
+import firebase from '@react-native-firebase/app';
+
+// pluck values from your `GoogleService-Info.plist` you created on the firebase console
+const iosConfig = {
+  clientId:
+    '941393088324-v0ldd5894hg2tcbl5k1rgs4nn932hf8v.apps.googleusercontent.com',
+  persistence: true,
+  apiKey: 'AIzaSyBIxaq4-1XkoPnOSYoU1vWMl6y2Apm2Mco',
+  authDomain: 'corocoro-5302f.firebaseapp.com',
+  databaseURL: 'https://corocoro-5302f.firebaseio.com',
+  projectId: 'corocoro-5302f',
+  storageBucket: 'corocoro-5302f.appspot.com',
+  messagingSenderId: '941393088324',
+  appId: '1:941393088324:web:5afc947bf2c4aa8f59d111',
+  measurementId: 'G-294LF9PFW0',
+};
+
+if (Platform.OS === 'ios') {
+  firebase.initializeApp(iosConfig);
+}
+
 function normalize(size) {
   let newSize = size * scale;
   if (viewportWidth > 450) {
@@ -89,7 +110,11 @@ class App extends Component {
   render() {
     return (
       <Container>
-        <Header style={[styles.headerTheme, {height: normalize(15)}]}>
+        <Header
+          style={[
+            styles.headerTheme,
+            {height: Platform.OS === 'ios' ? normalize(30) : normalize(15)},
+          ]}>
           <Text style={{color: 'white', fontSize: normalize(10)}}>
             Updated at {this.state.moment} GTC
           </Text>
@@ -203,6 +228,7 @@ class App extends Component {
                 )
               );
             })}
+            <View style={styles.sectionContainer} />
           </View>
         </ScrollView>
         <Header
@@ -285,6 +311,7 @@ const styles = StyleSheet.create({
   headerTheme: {
     height: Platform.OS === 'ios' ? normalize(40) : normalize(25),
     backgroundColor: colors.label4,
+    marginTop: -3,
   },
   gridTop: {
     fontSize: normalize(14),
