@@ -18,7 +18,6 @@ import {
   Spinner,
   Button,
 } from 'native-base';
-import Icon from 'react-native-vector-icons/SimpleLineIcons';
 import {StyleSheet, ScrollView, View, Text} from 'react-native';
 import firestore from '@react-native-firebase/firestore';
 import moment from 'moment';
@@ -270,6 +269,7 @@ const styles = StyleSheet.create({
   },
   highlight: {
     fontWeight: '700',
+    fontSize: normalize(10),
   },
   blue: {
     color: 'blue',
