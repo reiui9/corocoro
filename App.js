@@ -20,6 +20,7 @@ import {
 } from 'native-base';
 import {StyleSheet, ScrollView, View, Text} from 'react-native';
 import firestore from '@react-native-firebase/firestore';
+import {BannerAd, BannerAdSize, TestIds} from '@react-native-firebase/admob';
 import moment from 'moment';
 import {Colors} from 'react-native/Libraries/NewAppScreen';
 import {Dimensions, Platform, PixelRatio} from 'react-native';
@@ -108,12 +109,20 @@ class App extends Component {
   }
 
   render() {
+    const unitId =
+      Platform.OS === 'ios'
+        ? 'ca-app-pub-4432414803296210~6420325857'
+        : 'ca-app-pub-4432414803296210~6420325857';
+
+    // const bannerWidth = SCREEN_WIDTH*0.8;
+    // var bannerSize = String(bannerWidth) + 'x100';
+
     return (
       <Container>
         <Header
           style={[
             styles.headerTheme,
-            {height: Platform.OS === 'ios' ? normalize(30) : normalize(15)},
+            {height: Platform.OS === 'ios' ? normalize(30) : normalize(20)},
           ]}>
           <Text style={{color: 'white', fontSize: normalize(10)}}>
             Updated at {this.state.moment} GTC
@@ -138,7 +147,7 @@ class App extends Component {
           <View style={styles.body}>
             <View style={styles.sectionContainer}>
               <Text style={styles.sectionTitle}>Global</Text>
-              <Grid>
+              <Grid style={styles.girdDescription}>
                 <Col style={styles.grid}>
                   <Text style={styles.highlight}>
                     {numberWithCommas(this.state.data.confirmed)}
@@ -189,7 +198,7 @@ class App extends Component {
                     <Text style={styles.sectionTitle}>
                       {item.number}. {item.flag} {item.nation}
                     </Text>
-                    <Grid>
+                    <Grid style={styles.girdDescription}>
                       <Col style={styles.grid}>
                         <Text style={styles.highlight}>
                           {numberWithCommas(item.confirmed)}
@@ -224,6 +233,21 @@ class App extends Component {
                         </Text>
                       </Col>
                     </Grid>
+                    {(index + 1) % 10 === 0 && (
+                      <BannerAd
+                        unitId={TestIds.BANNER}
+                        size={BannerAdSize.FULL_BANNER}
+                        requestOptions={{
+                          requestNonPersonalizedAdsOnly: true,
+                        }}
+                        onAdLoaded={() => {
+                          console.log('Advert loaded');
+                        }}
+                        onAdFailedToLoad={(error) => {
+                          console.error('Advert failed to load: ', error);
+                        }}
+                      />
+                    )}
                   </View>
                 )
               );
@@ -272,7 +296,6 @@ const styles = StyleSheet.create({
   body: {},
   sectionContainer: {
     marginTop: normalize(10),
-    paddingHorizontal: 24,
   },
   Title: {
     fontSize: normalize(15),
@@ -280,6 +303,8 @@ const styles = StyleSheet.create({
     color: 'white',
   },
   sectionTitle: {
+    marginLeft: normalize(15),
+    marginRight: normalize(15),
     fontSize: normalize(15),
     fontWeight: '600',
     color: '#eee',
@@ -287,6 +312,9 @@ const styles = StyleSheet.create({
     backgroundColor: '#555',
     borderRadius: 8,
     paddingLeft: 10,
+  },
+  girdDescription: {
+    marginBottom: 2,
   },
   sectionDescription: {
     fontSize: normalize(13),
