@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "start": "react-native run-android --variant=release & react-native log-android",
+    "start": "react-native run-android & react-native log-android",
     "test": "react-native run-ios --simulator='iPhone 11'",
     "lint": "eslint ."
   },
@@ -21,6 +21,7 @@
     "react-navigation-stack": "^2.3.9",
     "react-navigation-tabs": "^2.8.9",
     "redux": "^4.0.5"
+    
   },
   "devDependencies": {
     "@babel/core": "^7.9.0",
