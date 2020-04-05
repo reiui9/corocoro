@@ -63,10 +63,10 @@ const unitId =
     ? 'ca-app-pub-4432414803296210/8609448458'
     : 'ca-app-pub-4432414803296210/2103749852';
 
-const interstitial = InterstitialAd.createForAdRequest(unitId, {
-  requestNonPersonalizedAdsOnly: true,
-  keywords: ['fashion', 'clothing'],
-});
+// const interstitial = InterstitialAd.createForAdRequest(unitId, {
+//   requestNonPersonalizedAdsOnly: true,
+//   keywords: ['fashion', 'clothing'],
+// });
 
 function normalize(size) {
   let newSize = size * scale;
@@ -78,7 +78,7 @@ function normalize(size) {
   if (Platform.OS === 'ios') {
     return Math.round(PixelRatio.roundToNearestPixel(newSize));
   } else {
-    return Math.round(PixelRatio.roundToNearestPixel(newSize)) - 2;
+    return Math.round(PixelRatio.roundToNearestPixel(newSize)) - 1;
   }
 }
 

@@ -666,7 +666,7 @@
 				DEVELOPMENT_TEAM = 8YWYKUXJ6M;
 				INFOPLIST_FILE = corocoro/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				MARKETING_VERSION = 1.1;
+				MARKETING_VERSION = 1.2;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -674,6 +674,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = org.reactjs.native.corocoro;
 				PRODUCT_NAME = CoronaWorld;
+				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Debug;
@@ -687,7 +688,7 @@
 				DEVELOPMENT_TEAM = 8YWYKUXJ6M;
 				INFOPLIST_FILE = corocoro/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				MARKETING_VERSION = 1.1;
+				MARKETING_VERSION = 1.2;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -695,6 +696,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = org.reactjs.native.corocoro;
 				PRODUCT_NAME = CoronaWorld;
+				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Release;

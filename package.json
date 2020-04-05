@@ -5,7 +5,7 @@
   "scripts": {
     "start": "react-native run-android & react-native log-android",
     "test": "react-native run-ios --simulator='iPhone 11'",
-    "lint": "eslint ."
+    "link": "react-native run-android --variant=release & react-native log-android"
   },
   "dependencies": {
     "@react-native-firebase/admob": "^6.3.4",
