@@ -111,7 +111,7 @@ class App extends Component {
   render() {
     const unitId =
       Platform.OS === 'ios'
-        ? 'ca-app-pub-4432414803296210~6420325857'
+        ? 'ca-app-pub-4432414803296210/8609448458'
         : 'ca-app-pub-4432414803296210/2103749852';
 
     // const bannerWidth = SCREEN_WIDTH*0.8;
@@ -235,7 +235,7 @@ class App extends Component {
                     </Grid>
                     {(index + 1) % 10 === 0 && (
                       <BannerAd
-                        unitId="ca-app-pub-4432414803296210/2103749852"
+                        unitId={unitId}
                         size={BannerAdSize.FULL_BANNER}
                         requestOptions={{
                           requestNonPersonalizedAdsOnly: true,
