@@ -42,6 +42,7 @@ public class CurCovidStatusWidgetConfig extends AppCompatActivity {
     }
 
     public void confirmConfiguration(View v) {
+//        TODO: constant 에 적힌 나라만 선택이 가능하도록 변경해야 한다.
         AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(this);
 
         Intent intent = new Intent(this, MainActivity.class);

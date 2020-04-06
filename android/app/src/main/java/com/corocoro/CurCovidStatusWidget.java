@@ -8,6 +8,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.widget.RemoteViews;
 
+import com.google.firebase.firestore.FirebaseFirestore;
+
 import static com.corocoro.CurCovidStatusWidgetConfig.KEY_COUNTRY_TEXT;
 import static com.corocoro.CurCovidStatusWidgetConfig.SHARED_PRES;
 
@@ -15,6 +17,8 @@ import static com.corocoro.CurCovidStatusWidgetConfig.SHARED_PRES;
  * Implementation of App Widget functionality.
  */
 public class CurCovidStatusWidget extends AppWidgetProvider {
+
+    private FirebaseFirestore db;
 
     static void updateAppWidget(Context context, AppWidgetManager appWidgetManager,
                                 int appWidgetId) {
@@ -27,7 +31,12 @@ public class CurCovidStatusWidget extends AppWidgetProvider {
         // Construct the RemoteViews object
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.cur_covid_status_widget);
         views.setOnClickPendingIntent(R.id.appwidget_root, pendingIntent);
+        intent = new Intent(context, CurCovidStatusWidgetConfig.class);
+        intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
+        pendingIntent = PendingIntent.getActivity(context, 1, intent, 0);
+        views.setOnClickPendingIntent(R.id.appwidget_configure, pendingIntent);
         views.setTextViewText(R.id.appwidget_country, country);
+
 
         // Instruct the widget manager to update the widget
         appWidgetManager.updateAppWidget(appWidgetId, views);
@@ -44,6 +53,7 @@ public class CurCovidStatusWidget extends AppWidgetProvider {
     @Override
     public void onEnabled(Context context) {
         // Enter relevant functionality for when the first widget is created
+        db = FirebaseFirestore.getInstance();
     }
 
     @Override
